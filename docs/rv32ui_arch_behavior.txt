@@ -1,0 +1,68 @@
+This document defines the architectural behavior of each RV32I instruction as implemented by this CPU
+-----------------------------------------------------------------------------------------------------------
+addr = rs1 + sign_extend(imm)
+Default behavior: pc <- pc + 4 unless explicitly overridden
+Writes to register x0 are ignored (x0 is hard-wired to 0)
+===========================================================================================================
+Type		Instruction			Operation
+===========================================================================================================
+R Arith		ADD				rd <- rs1 + rs2
+R Arith		SUB				rd <- rs1 - rs2
+R Arith		SLL   (Shift Left Logical)	rd <- rs1 << shamt; shamt = rs2[4:0]
+R Arith		SLT   (Set Less than, signed)	rd <- (signed(rs1) < signed(rs2)) ? 1 : 0
+R Arith		SLTU  (Set Less than, unsigned) rd <- (rs1 < rs2) ? 1 : 0
+R Arith		XOR				rd <- rs1 ^ rs2
+R Arith		SRL   (Shift Right Logical)	rd <- rs1 >> shamt; shamt = rs2[4:0]
+R Arith		SRA   (Shift Right Arithmetic) 	rd <- signed(rs1) >>> shamt; shamt = rs2[4:0]
+R Arith		OR				rd <- rs1 | rs2
+R Arith		AND				rd <- rs1 & rs2
+
+I Arith		ADDI				rd <- rs1 + sign_extend(imm)
+I Arith		SLTI  (Set Less Than, signed)	rd <- (signed(rs1) < signed(sign_extend(imm))) ? 1 : 0
+I Arith		SLTIU (Set Less Than, unsigned) rd <- (unsigned(rs1) < unsigned(sign_extend(imm))) ? 1 : 0 
+I Arith		XORI				rd <- rs1 ^ sign_extend(imm)
+I Arith		ORI				rd <- rs1 | sign_extend(imm)
+I Arith		ANDI 				rd <- rs1 & sign_extend(imm)
+I Arith		SLLI (Shift Left Logical)	rd <- rs1 << shamt; shamt = imm[4:0]
+I Arith		SRLI (Shift Right Logical)	rd <- rs1 >> shamt; shamt = imm[4:0]
+I Arith		SRAI (Shift Right Arithmetic)	rd <- signed(rs1) >>> shamt; shamt = imm[4:0]
+
+I Load		LB   (Load Byte - 8bit)		rd <- sign_extend(mem[addr][7:0]);  
+I Load		LH   (Load Halfword - 16bit)	if(addr%2==0) rd <- sign_extend(mem[addr][15:0]); 
+I Load		LW   (Load Word - 32bit)	if(addr%4==0) rd <- mem[addr][31:0]; 		    
+I Load		LBU  (Load Byte unsigned)	rd <- zero_extend(mem[addr][7:0]);  
+I Load		LHU  (Load Halfword unsigned) 	if(addr%2==0) rd <- zero_extend(mem[addr][15:0]); 
+
+S		SB   (Store Byte)		mem[addr][7:0] <- rs2[7:0];         
+S		SH   (Store Halfword)		mem[addr][15:0] <- rs2[15:0]; 	 
+S		SW   (Store Word)		mem[addr][31:0] <- rs2[31:0];
+
+J Jump		JAL				rd <- pc + 4; pc <- pc + sign_extend(imm)
+J Jump		JALR				rd <- pc + 4; pc <- (rs1 + sign_extend(imm)) & ~1
+
+U		LUI				rd <- imm << 12
+U		AUIPC				rd <- pc + (imm << 12)
+SYSTEM		FENCE/FENCE.TSO			NOP
+SYSTEM		PAUSE				NOP
+SYSTEM		ECALL				HALT
+SYSTEM		EBREAK				HALT
+-----------------------------------------------------------------------------------------------------------
+
+-----------------------------------------------------------------------------------------------------------
+B General
+if (condition) 	pc <- pc + sign_extend(imm)
+else		pc <- pc + 4
+===========================================================================================================
+Type		Instruction			Condition
+===========================================================================================================
+B		BEQ				rs1 == rs2
+B		BNE				rs1 != rs2
+B		BLT				signed(rs1) < signed(rs2)
+B		BGE				signed(rs1) >= signed(rs2)
+B		BLTU				unsigned(rs1) < unsigned(rs2)
+B		BGEU   				unsigned(rs1) >= unsigned(rs2)
+-----------------------------------------------------------------------------------------------------------
+
+
+
+
