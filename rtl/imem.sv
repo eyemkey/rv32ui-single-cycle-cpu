@@ -5,6 +5,7 @@ module imem #(
     input logic [31:0] pc, 
     output logic [31:0] instr
 );
+    timeunit 1ns/1ps;
 
     logic [31:0] instructions [0:DEPTH_WORDS - 1];
     
