@@ -39,13 +39,13 @@ module tb_pc;
         #1; 
         if(pc !== RESET_VALUE)
             $fatal(1, "Reset failed: time=%0t \t| pc=%h \t| RESET_VALUE=%h", $time, pc, RESET_VALUE); 
-        
+
         verify(32'h0000_0004); 
         verify(32'h0000_0008); 
         verify(32'h0000_000A); 
         verify(32'h1000_0000); 
 
-        $display("[PASS] All tests have been passed!"); 
+        $display("[PASS] tb_pc: All tests passed!"); 
         $finish;
     end
 
