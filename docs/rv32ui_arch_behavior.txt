@@ -28,10 +28,10 @@ I Arith		SRLI (Shift Right Logical)	rd <- rs1 >> shamt; shamt = imm[4:0]
 I Arith		SRAI (Shift Right Arithmetic)	rd <- signed(rs1) >>> shamt; shamt = imm[4:0]
 
 I Load		LB   (Load Byte - 8bit)		rd <- sign_extend(mem[addr][7:0]);  
-I Load		LH   (Load Halfword - 16bit)	if(addr%2==0) rd <- sign_extend(mem[addr][15:0]); 
-I Load		LW   (Load Word - 32bit)	if(addr%4==0) rd <- mem[addr][31:0]; 		    
+I Load		LH   (Load Halfword - 16bit)	rd <- sign_extend(mem[addr][15:0]); 
+I Load		LW   (Load Word - 32bit)	rd <- mem[addr][31:0]; 		    
 I Load		LBU  (Load Byte unsigned)	rd <- zero_extend(mem[addr][7:0]);  
-I Load		LHU  (Load Halfword unsigned) 	if(addr%2==0) rd <- zero_extend(mem[addr][15:0]); 
+I Load		LHU  (Load Halfword unsigned) 	rd <- zero_extend(mem[addr][15:0]); 
 
 S		SB   (Store Byte)		mem[addr][7:0] <- rs2[7:0];         
 S		SH   (Store Halfword)		mem[addr][15:0] <- rs2[15:0]; 	 
