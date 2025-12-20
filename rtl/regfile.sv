@@ -16,12 +16,6 @@ module regfile(
     always_comb begin
         rs1_data = (rs1_addr == 5'd0) ? 32'h0000_0000 : registers[rs1_addr]; 
         rs2_data = (rs2_addr == 5'd0) ? 32'h0000_0000 : registers[rs2_addr]; 
-
-        if (reg_we && (rd_addr != 5'd0) && (rs1_addr == rd_addr))
-            rs1_data = rd_wdata;
-
-        if (reg_we && (rd_addr != 5'd0) && (rs2_addr == rd_addr))
-            rs2_data = rd_wdata;
     end
 
     always_ff @(posedge clk or negedge rst_n) begin

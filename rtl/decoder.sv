@@ -147,7 +147,7 @@ module decoder(
                 reg_we = 1'b1; 
                 wb_sel = 2'b10; 
                 pc_sel = 2'b01; 
-                alu_src1_sel = 1'b0; 
+                alu_src1_sel = 1'b1; 
                 alu_src2_sel = 1'b1; 
                 alu_op = ALU_ADD;
             end
@@ -171,6 +171,13 @@ module decoder(
                 wb_sel = 2'b00; 
                 alu_src1_sel = 1'b1; 
                 alu_src2_sel = 1'b1;
+                alu_op = ALU_ADD; 
+            end
+
+            BRANCH: begin
+                pc_sel = 2'b11; 
+                alu_src1_sel = 1'b1; 
+                alu_src2_sel = 1'b1; 
                 alu_op = ALU_ADD; 
             end
 

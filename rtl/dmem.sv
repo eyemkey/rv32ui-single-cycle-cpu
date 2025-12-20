@@ -1,5 +1,5 @@
 module dmem
-#(parameter DEPTH=1028)
+#(parameter DEPTH=32)
 (
     input logic clk, 
     input logic rst_n, 

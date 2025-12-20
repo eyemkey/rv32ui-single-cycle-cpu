@@ -1,5 +1,5 @@
 module pc #(
-    parameter logic [31:0] BASE_PC = 32'h0000_0000
+    parameter logic [31:0] BASE_PC = 32'h8000_0000
 ) (
     input logic         clk, 
     input logic         rst_n, 
